@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/vendor/autoload.php';
-const API_URL = "https://hooks.slack.com/services/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";
+const API_URL = "https://hooks.slack.com/services/XXXXXXXXXXXXXXXXXXXXXX";
 
 
 $analytics = initializeAnalytics();
@@ -68,7 +68,6 @@ function printResults($response){
 }
 
 function convertData($dataArray){
-    //error_log(print_r($dataArray, true));
     $currentHour = date("G");
     if($currentHour==0){
         $currentHour =24;
@@ -112,7 +111,7 @@ function convertData($dataArray){
 }
 
 function makeTextAndAccessDB($data){
-    $strlastCountJSON = file_get_contents("/usr/local/alertAction/lastCount.json");
+    $strlastCountJSON = file_get_contents("./lastCount.json");
     $arrayLastCount = json_decode($strlastCountJSON , TRUE);
     date_default_timezone_set("Asia/Tokyo");
     $currentDateString = date("Y-m-d");
@@ -129,7 +128,7 @@ function makeTextAndAccessDB($data){
                                 "calls" => array(), "calls valid" => array() );
     }
 
-    $mysqli = new mysqli("133.242.148.73", "hunter", "hunter0705", "cdr");
+    $mysqli = new mysqli("000.000.000.00", "xxxxxxx", "xxxxxxxx", "xxxxxxxxx");
     mysqli_set_charset($mysqli, "utf8");
 
     $sqlCalls = "SELECT * FROM cdr.action_call_data_view where left(action_date,10) = '$currentDateString'";
@@ -164,12 +163,6 @@ function makeTextAndAccessDB($data){
 
     $arrayLastCount['UU'] = $numUU;
 
-    /*$arrayLastCount2 = array();
-    $arrayLastCount2['mails'] = array_column($arrayLastCount, 'mails');
-    $arrayLastCount2['calls'] = array_column($arrayLastCount, 'calls');
-    $arrayLastCount2['calls valid'] = array_column($arrayLastCount, 'calls valid');
-    $arrayLastCount2['mails valid'] = array_column($arrayLastCount, 'mails valid');*/
-
     if ($currentHour == 0){
         $newArray = array("mails" => [0], "mails valid" => [0], "calls" => [0], "calls valid" => [0]);
         file_put_contents("/usr/local/alertAction/lastCount.json",json_encode($newArray)); 
@@ -201,7 +194,6 @@ function makeTextAndAccessDB($data){
         'title'=> $titleText,
         'text' => $textString
     );
-   // var_dump($textString);
 
     return $textArray;
 }
