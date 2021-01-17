@@ -1,2 +1,3 @@
 # alertActionsAndUU
 1時間ごとにwebサイトに来た新規ユーザーの数や、アクション数（web集客サービス企業のインターンをしているため）をSlackの特定のチャンネルに通知するアプリです。
+vendorディレクトリとclient_secrets.jsonは省略させていただきます。
